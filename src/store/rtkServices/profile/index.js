@@ -40,7 +40,7 @@ export const profileService = createApi({
         method: "PUT",
         body: imgData,
       }),
-      invalidatesTags: ["Profile_Picture"],
+      invalidatesTags: ["Profile_Picture", "Profile"],
     }),
   }),
 });

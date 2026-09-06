@@ -22,6 +22,7 @@ export function useUserManagement() {
     getDialogContent,
     handleAction,
     handleConfirm,
+    isLoading: isConfirmLoading,
   } = useUserMgmtConfirmationAlert();
 
   /*
@@ -144,6 +145,7 @@ export function useUserManagement() {
     setConfirmAlert,
     handleConfirm,
     dialogContent,
+    isConfirmAlertLoading: isConfirmLoading,
     handleChangePage,
     handleChangeRowsPerPage,
     handleExport,

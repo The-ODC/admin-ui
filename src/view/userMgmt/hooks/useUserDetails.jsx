@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { StatusChip } from "TheOdcMfUI/sharedComp";
+import { buildAssetUrl } from "TheOdcMfUI/utility";
 
 import {
   useGetUserByIdQuery,
@@ -54,7 +55,11 @@ export function useUserDetails() {
   };
 
   const avatarSrc = userDetails?.photo
-    ? `${VITE_APP_ASSETS_PATH}${userDetails?.folderLocation}/${userDetails?.photo}`
+    ? buildAssetUrl({
+        baseUrl: VITE_APP_ASSETS_PATH,
+        folderLocation: userDetails?.folderLocation,
+        fileName: userDetails?.photo,
+      })
     : "";
 
   /*

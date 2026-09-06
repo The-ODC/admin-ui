@@ -19,6 +19,7 @@ function CustomAlertDialog({
   confirmLabel = "Confirm",
   cancelLabel = "Cancel",
   size = "xs",
+  isLoading = false,
   ...rest
 }) {
   const cancelRef = useRef(null);
@@ -62,6 +63,7 @@ function CustomAlertDialog({
           ref={cancelRef}
           variant="outlined"
           onClick={onClose}
+          disabled={isLoading}
           sx={{ minWidth: btnWidth }}
         >
           {cancelLabel}
@@ -69,6 +71,7 @@ function CustomAlertDialog({
         <Button
           ref={confirmRef}
           onClick={handleConfirm}
+          loading={isLoading}
           sx={{ minWidth: btnWidth }}
         >
           {confirmLabel}
@@ -88,6 +91,7 @@ CustomAlertDialog.propTypes = {
   confirmLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   size: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 export default CustomAlertDialog;

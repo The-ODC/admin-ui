@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { cookies } from "TheOdcMfUI/utility";
+import { cookies, buildAssetUrl } from "TheOdcMfUI/utility";
 
 import {
   useGetProfileDetailsQuery,
@@ -34,14 +34,14 @@ export function useProfile() {
    */
   const { data: profileDetails = {}, isFetching } =
     useGetProfileDetailsQuery(userId);
-  const [updateProfileDetails, { isFetching: isUpdating }] =
+  const [updateProfileDetails, { isLoading: isUpdating }] =
     useUpdateProfileDetailsMutation();
 
   const {
     data: { folderLocation, photo } = {},
     isFetching: isProfilePicFetching,
   } = useGetProfilePhotoQuery(userId);
-  const [updateProfilePhoto, { isFetching: isProfilePicUpdating }] =
+  const [updateProfilePhoto, { isLoading: isProfilePicUpdating }] =
     useUpdateProfilePhotoMutation();
 
   /*
@@ -64,7 +64,13 @@ export function useProfile() {
     enableReinitialize: true,
   });
 
-  const avatarSrc = `${VITE_APP_ASSETS_PATH}${folderLocation}/${photo}`;
+  const avatarSrc = photo
+    ? buildAssetUrl({
+        baseUrl: VITE_APP_ASSETS_PATH,
+        folderLocation,
+        fileName: photo,
+      })
+    : "";
 
   /*
     Handlers & Callback Actions

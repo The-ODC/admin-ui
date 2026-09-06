@@ -190,6 +190,7 @@ function InquiriesMgmt() {
         title="Delete Contact Inquiry?"
         description="Are you sure you want to delete this customer inquiry? This action cannot be undone."
         confirmLabel="Yes, Delete"
+        isLoading={isDeleting}
       />
     </Stack>
   );

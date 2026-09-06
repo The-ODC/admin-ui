@@ -182,21 +182,22 @@ function AddEditProduct() {
               mt={4}
             >
               <Button
-                disabled={activeStep === 0}
+                disabled={activeStep === 0 || isSaving}
                 type="button"
+                variant="outlined"
                 onClick={onBack}
               >
                 Back
               </Button>
               {activeStep === stepsConfig.length - 1 ? (
-                <Button key="submit-btn" variant="contained" type="submit">
-                  {isEditMode
-                    ? isSaving
-                      ? "Updating..."
-                      : "Update Dish"
-                    : isSaving
-                      ? "Creating..."
-                      : "Create Dish"}
+                <Button
+                  key="submit-btn"
+                  variant="contained"
+                  type="submit"
+                  loading={isSaving}
+                  disabled={isSaving}
+                >
+                  {isEditMode ? "Update Dish" : "Create Dish"}
                 </Button>
               ) : (
                 <Button
@@ -204,6 +205,7 @@ function AddEditProduct() {
                   variant="contained"
                   type="button"
                   onClick={onNext}
+                  disabled={isSaving}
                 >
                   Next
                 </Button>

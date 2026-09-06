@@ -21,6 +21,20 @@ const ProductImageGallery = ({ images = [], dirPath = "" }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [brokenImages, setBrokenImages] = useState({});
 
+  const getImageSrc = (img) => {
+    if (!img) return "";
+    if (
+      /^https?:\/\//i.test(img) ||
+      img.startsWith("data:") ||
+      img.startsWith("blob:")
+    ) {
+      return img;
+    }
+    const base = String(dirPath || "").replace(/\/+$/, "");
+    const file = String(img).replace(/^\/+/, "");
+    return base ? `${base}/${file}` : file;
+  };
+
   if (!images.length) {
     return (
       <Box
@@ -182,7 +196,7 @@ const ProductImageGallery = ({ images = [], dirPath = "" }) => {
           ) : (
             <Zoom>
               <img
-                src={`${dirPath}${images[activeIndex]}`}
+                src={getImageSrc(images[activeIndex])}
                 alt={`Product ${activeIndex + 1}`}
                 onError={() =>
                   setBrokenImages((prev) => ({ ...prev, [activeIndex]: true }))
@@ -218,40 +232,34 @@ const ProductImageGallery = ({ images = [], dirPath = "" }) => {
                         justifyContent: "center",
                         bgcolor: "action.hover",
                         borderRadius: 2,
-                        border:
-                          idx === activeIndex
-                            ? `2px solid ${theme.palette.primary.main}`
-                            : `2px solid transparent`,
+                        border: "1px dashed",
+                        borderColor: "divider",
                       }}
                     >
                       <Restaurant
                         sx={{
                           fontSize: 24,
-                          color: "primary.main",
+                          color: "text.disabled",
                           opacity: 0.7,
                         }}
                       />
                     </Box>
                   ) : (
-                    <Box
-                      component="img"
-                      src={`${dirPath}${img}`}
-                      alt={`Product thumbnail ${idx + 1}`}
+                    <img
+                      src={getImageSrc(img)}
+                      alt={`Thumbnail ${idx + 1}`}
                       onError={() =>
                         setBrokenImages((prev) => ({ ...prev, [idx]: true }))
                       }
-                      sx={{
+                      style={{
                         width: "100%",
                         height: 70,
                         objectFit: "cover",
-                        borderRadius: 2,
+                        borderRadius: 8,
                         border:
-                          idx === activeIndex
+                          activeIndex === idx
                             ? `2px solid ${theme.palette.primary.main}`
-                            : `2px solid transparent`,
-                        boxShadow:
-                          idx === activeIndex ? theme.shadows[2] : "none",
-                        transition: "border 0.3s",
+                            : `1px solid ${theme.palette.divider}`,
                       }}
                     />
                   )}

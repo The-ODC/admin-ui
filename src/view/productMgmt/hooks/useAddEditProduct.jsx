@@ -42,9 +42,8 @@ export function useAddEditProduct() {
       skip: !isEditMode,
     });
 
-  const [createProduct, { isFetching }] = useCreateProductMutation();
-  const [updateProduct, { isFetching: isUpdating }] =
-    useUpdateProductMutation();
+  const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
 
   /*
     Computed Values & Memos (State Aggregates)
@@ -253,6 +252,6 @@ export function useAddEditProduct() {
     onNext,
     onBack,
     handleStepClick,
-    isSaving: isSubmitting || isFetching || isUpdating,
+    isSaving: isSubmitting || isCreating || isUpdating,
   };
 }

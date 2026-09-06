@@ -15,8 +15,9 @@ export function useProductMgmtConfirmationAlert() {
   });
 
   // RTK Query
-  const [activeInActiveProduct] = useToggleProductStatusMutation();
-  const [deleteProduct] = useDeleteProductMutation();
+  const [activeInActiveProduct, { isLoading: isToggling }] =
+    useToggleProductStatusMutation();
+  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   const getDialogContent = (action, selectedProduct) => {
     const name = selectedProduct?.name || "N/A";
@@ -122,5 +123,6 @@ export function useProductMgmtConfirmationAlert() {
     getDialogContent,
     handleAction,
     handleConfirm,
+    isLoading: isToggling || isDeleting,
   };
 }

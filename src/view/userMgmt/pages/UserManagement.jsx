@@ -45,6 +45,7 @@ function UserManagement() {
     total,
     rows,
     dialogContent,
+    isConfirmAlertLoading,
 
     /*
       Event Handler Callbacks
@@ -106,6 +107,7 @@ function UserManagement() {
         title={dialogContent.title}
         description={dialogContent.description}
         confirmLabel={dialogContent.confirmLabel}
+        isLoading={isConfirmAlertLoading}
       />
 
       <AddEditUserModal

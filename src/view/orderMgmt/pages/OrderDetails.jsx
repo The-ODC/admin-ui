@@ -11,16 +11,21 @@ import {
   alpha,
 } from "@mui/material";
 import {
+  AdminPanelSettings,
   Cancel,
   Done,
   LocalShipping,
+  LocationOn,
+  Person,
   Phone,
   PhoneAndroid,
   Replay,
   Restaurant,
+  StickyNote2,
 } from "@mui/icons-material";
 
 import { Button } from "TheOdcMfUI/sharedComp";
+import { buildAssetUrl } from "TheOdcMfUI/utility";
 
 import { PageHeader } from "../../../sharedComponents";
 import { OrderDetailsSkeleton } from "../components";
@@ -243,7 +248,11 @@ function OrderDetails() {
                 <Avatar
                   src={
                     item.image
-                      ? `${VITE_APP_ASSETS_PATH}/uploads/products/${item.image}`
+                      ? buildAssetUrl({
+                          baseUrl: VITE_APP_ASSETS_PATH,
+                          folderLocation: "/uploads/products",
+                          fileName: item.image,
+                        })
                       : undefined
                   }
                   variant="rounded"
@@ -300,16 +309,19 @@ function OrderDetails() {
           </Card>
 
           <Card>
-            <Typography variant="h6" gutterBottom>
-              Delivery Details
-            </Typography>
-            <Divider sx={{ my: 2 }} />
-            <Typography>
+            <Box display="flex" alignItems="center" gap={1} mb={1}>
+              <LocationOn color="primary" />
+              <Typography variant="h6" fontWeight={700}>
+                Delivery Details
+              </Typography>
+            </Box>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="body1" fontWeight={600}>
               {[deliveryAddress.line1, deliveryAddress.line2]
                 .filter(Boolean)
                 .join(", ") || "N/A"}
             </Typography>
-            <Typography>
+            <Typography variant="body2" color="text.secondary">
               {[deliveryAddress.city, deliveryAddress.state]
                 .filter(Boolean)
                 .join(", ")}
@@ -317,7 +329,10 @@ function OrderDetails() {
                 ? ` - ${deliveryAddress.postalCode}`
                 : ""}
             </Typography>
-            <Typography>{deliveryAddress.country || "N/A"}</Typography>
+            <Typography variant="body2" color="text.secondary">
+              {deliveryAddress.country || "N/A"}
+            </Typography>
+
             {(deliveryAddress.phone || deliveryAddress.alternatePhone) && (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1.5 }}>
                 {deliveryAddress.phone && (
@@ -341,25 +356,147 @@ function OrderDetails() {
                 )}
               </Box>
             )}
-            <Typography color="text.secondary" mt={1.5}>
-              Method: {order?.delivery?.method || "N/A"}
-            </Typography>
-            <Typography color="text.secondary">
-              Instructions: {order?.delivery?.instructions || "N/A"}
-            </Typography>
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                mt: 2,
+                pt: 1.5,
+                borderTop: "1px solid",
+                borderColor: "divider",
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                Delivery Method:
+              </Typography>
+              <Chip
+                label={order?.delivery?.method || "Standard Delivery"}
+                size="small"
+                variant="outlined"
+                sx={{ fontWeight: 600 }}
+              />
+            </Box>
+
+            {order?.delivery?.instructions && (
+              <Box
+                sx={{
+                  mt: 2,
+                  p: 1.5,
+                  borderRadius: 2,
+                  bgcolor: (theme) =>
+                    alpha(
+                      theme.palette.primary.main,
+                      theme.palette.mode === "dark" ? 0.08 : 0.04
+                    ),
+                  border: "1px dashed",
+                  borderColor: "divider",
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  fontWeight={700}
+                  color="primary.main"
+                  display="block"
+                >
+                  Delivery Instructions:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{ mt: 0.3 }}
+                >
+                  {order.delivery.instructions}
+                </Typography>
+              </Box>
+            )}
           </Card>
 
           <Card>
-            <Typography variant="h6" gutterBottom>
-              Notes
-            </Typography>
+            <Box display="flex" alignItems="center" gap={1} mb={1}>
+              <StickyNote2 color="primary" />
+              <Typography variant="h6" fontWeight={700}>
+                Order & Staff Notes
+              </Typography>
+            </Box>
             <Divider sx={{ mb: 2 }} />
-            <Typography variant="body2" mb={1}>
-              <strong>Customer:</strong> {order?.notes?.customer || "N/A"}
-            </Typography>
-            <Typography variant="body2">
-              <strong>Admin:</strong> {order?.notes?.admin || "N/A"}
-            </Typography>
+
+            <Stack spacing={2}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  bgcolor: (theme) =>
+                    alpha(
+                      theme.palette.primary.main,
+                      theme.palette.mode === "dark" ? 0.08 : 0.04
+                    ),
+                  border: "1px solid",
+                  borderColor: (theme) =>
+                    alpha(
+                      theme.palette.primary.main,
+                      theme.palette.mode === "dark" ? 0.2 : 0.15
+                    ),
+                }}
+              >
+                <Box display="flex" alignItems="center" gap={1} mb={0.5}>
+                  <Person color="primary" fontSize="small" />
+                  <Typography
+                    variant="subtitle2"
+                    fontWeight={700}
+                    color="primary.main"
+                  >
+                    Customer Special Instructions
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="body2"
+                  color={
+                    order?.notes?.customer ? "text.primary" : "text.secondary"
+                  }
+                  sx={{
+                    fontStyle: order?.notes?.customer ? "normal" : "italic",
+                  }}
+                >
+                  {order?.notes?.customer ||
+                    "No special cooking or order instructions provided by customer."}
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  bgcolor: (theme) =>
+                    theme.palette.mode === "dark"
+                      ? "rgba(255, 255, 255, 0.03)"
+                      : "rgba(0, 0, 0, 0.02)",
+                  border: "1px solid",
+                  borderColor: "divider",
+                }}
+              >
+                <Box display="flex" alignItems="center" gap={1} mb={0.5}>
+                  <AdminPanelSettings color="action" fontSize="small" />
+                  <Typography
+                    variant="subtitle2"
+                    fontWeight={700}
+                    color="text.primary"
+                  >
+                    Internal / Kitchen Remarks
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="body2"
+                  color={
+                    order?.notes?.admin ? "text.primary" : "text.secondary"
+                  }
+                  sx={{ fontStyle: order?.notes?.admin ? "normal" : "italic" }}
+                >
+                  {order?.notes?.admin || "No internal staff remarks recorded."}
+                </Typography>
+              </Box>
+            </Stack>
           </Card>
         </Stack>
       )}

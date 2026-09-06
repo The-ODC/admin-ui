@@ -14,8 +14,9 @@ export function useUserMgmtConfirmationAlert() {
     selectedUser: null,
   });
 
-  const [toggleUserStatus] = useToggleUserStatusMutation();
-  const [deleteUser] = useDeleteUserMutation();
+  const [toggleUserStatus, { isLoading: isToggling }] =
+    useToggleUserStatusMutation();
+  const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
 
   const getDialogContent = (action, selectedUser) => {
     const name = selectedUser?.name || "N/A";
@@ -135,5 +136,6 @@ export function useUserMgmtConfirmationAlert() {
     getDialogContent,
     handleAction,
     handleConfirm,
+    isLoading: isToggling || isDeleting,
   };
 }

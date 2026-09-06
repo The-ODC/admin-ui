@@ -44,6 +44,7 @@ function ProductManagement() {
     total,
     rows,
     dialogContent,
+    isConfirmAlertLoading,
 
     /*
       Event Handler Callbacks
@@ -91,12 +92,13 @@ function ProductManagement() {
       <CustomAlertDialog
         open={confirmAlert.open}
         onClose={() =>
-          setConfirmAlert({ open: false, action: null, selectedUser: null })
+          setConfirmAlert({ open: false, action: null, selectedProduct: null })
         }
         handleConfirm={handleConfirm}
         title={dialogContent.title}
         description={dialogContent.description}
         confirmLabel={dialogContent.confirmLabel}
+        isLoading={isConfirmAlertLoading}
       />
     </>
   );

@@ -28,7 +28,7 @@ function UpdatePasswordModal({ updatePasswordModal, setUpdatePasswordModal }) {
   const { open = false } = updatePasswordModal;
 
   // RTK state
-  const [changePassword, { isFetching }] = useChangePasswordMutation();
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
 
   const {
     control,
@@ -71,7 +71,7 @@ function UpdatePasswordModal({ updatePasswordModal, setUpdatePasswordModal }) {
       handleConfirm={handleSubmit(handleFormSubmit)}
       confirmLabel="Update"
       cancelLabel="Cancel"
-      isLoading={isSubmitting || isFetching}
+      isLoading={isSubmitting || isLoading}
       loadingLabel="Updating..."
     >
       <FormInput

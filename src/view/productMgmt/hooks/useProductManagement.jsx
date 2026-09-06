@@ -22,6 +22,7 @@ export function useProductManagement() {
     getDialogContent,
     handleAction,
     handleConfirm,
+    isLoading: isConfirmLoading,
   } = useProductMgmtConfirmationAlert();
 
   /*
@@ -151,6 +152,7 @@ export function useProductManagement() {
     setConfirmAlert,
     handleConfirm,
     dialogContent,
+    isConfirmAlertLoading: isConfirmLoading,
     handleChangePage,
     handleChangeRowsPerPage,
     handleExport,
