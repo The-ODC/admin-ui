@@ -1,17 +1,17 @@
 import React from "react";
-import { Grid, Card, Typography } from "@mui/material";
+import { Grid, Card, Typography, useTheme } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { DataTable } from "../../../sharedComponents";
 
 function RecentActivityTables({
-  theme,
   isLoading,
   customOrderColumns,
   recentOrders,
   customUserColumns,
   newUsers,
 }) {
+  const theme = useTheme();
   return (
     <Grid container spacing={3}>
       {/* Recent Orders */}
@@ -80,7 +80,6 @@ function RecentActivityTables({
 }
 
 RecentActivityTables.propTypes = {
-  theme: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
   customOrderColumns: PropTypes.array.isRequired,
   recentOrders: PropTypes.array.isRequired,

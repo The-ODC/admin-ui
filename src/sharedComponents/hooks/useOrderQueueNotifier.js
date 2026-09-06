@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
-import { cookies } from "OdBitesMfUI/utility";
+import { cookies } from "TheOdcMfUI/utility";
 import { VITE_APP_API_URL } from "../../config/env";
 import {
   useUpdateOrderStatusMutation,

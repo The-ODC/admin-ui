@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 
-import { FilterWrapper } from "OdBitesMfUI/sharedComp";
+import { FilterWrapper } from "TheOdcMfUI/sharedComp";
 
 import { dropDownOptions } from "../../../constant";
 

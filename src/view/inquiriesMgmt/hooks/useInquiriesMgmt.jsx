@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { formatDateTime } from "OdBitesMfUI/utility";
-import { StatusChip } from "OdBitesMfUI/sharedComp";
+import { formatDateTime } from "TheOdcMfUI/utility";
+import { StatusChip } from "TheOdcMfUI/sharedComp";
 import { TableAction } from "../../../sharedComponents";
 
 import { useFetchContactInquiriesQuery } from "../../../store/rtkServices/inquiries";
@@ -37,12 +37,19 @@ export default function useInquiriesMgmt() {
     isLoading,
     isFetching,
     refetch,
-  } = useFetchContactInquiriesQuery({
-    page: page + 1,
-    limit: rowsPerPage,
-    status,
-    search: debouncedSearch,
-  });
+  } = useFetchContactInquiriesQuery(
+    {
+      page: page + 1,
+      limit: rowsPerPage,
+      status,
+      search: debouncedSearch,
+    },
+    {
+      pollingInterval: 60 * 60 * 1000, // Refetch inquiry data every 1 hour (3,600,000 ms)
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    }
+  );
 
   /*
     Computed Values & Memos (State Aggregates)

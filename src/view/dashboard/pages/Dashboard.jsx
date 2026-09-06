@@ -19,11 +19,6 @@ function Dashboard() {
    */
   const {
     /*
-      Theme & Layout
-     */
-    theme,
-
-    /*
       Timeframe State
      */
     timeframe,
@@ -59,18 +54,16 @@ function Dashboard() {
       ) : (
         <Stack spacing={4}>
           {/* Top Summary Metric Cards */}
-          <SummaryCards theme={theme} summary={summary} />
+          <SummaryCards summary={summary} />
 
           {/* Analytics Charts */}
           <AnalyticsCharts
-            theme={theme}
             salesOverview={salesOverview}
             productDemandAnalytics={productDemandAnalytics}
           />
 
           {/* Recent Orders and Users Tables */}
           <RecentActivityTables
-            theme={theme}
             isLoading={isLoading}
             customOrderColumns={customOrderColumns}
             recentOrders={recentOrders}
@@ -79,7 +72,7 @@ function Dashboard() {
           />
 
           {/* Quick Actions / Shortcuts */}
-          <ManagementShortcuts theme={theme} />
+          <ManagementShortcuts />
         </Stack>
       )}
     </>

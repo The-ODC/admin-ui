@@ -4,8 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
 
-import { ErrorBoundary } from "OdBitesMfUI/helpers";
-import { ThemeProviderWrapper } from "OdBitesMfUI/theme";
+import { ErrorBoundary } from "TheOdcMfUI/helpers";
+import { ThemeProviderWrapper } from "TheOdcMfUI/theme";
 import App from "./App.jsx";
 import Store from "./store";
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { cookies } from "OdBitesMfUI/utility";
+import { cookies } from "TheOdcMfUI/utility";
 
 import {
   useGetProfileDetailsQuery,

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PropTypes from "prop-types";
 
-import { FormInput } from "OdBitesMfUI/sharedComp";
+import { FormInput } from "TheOdcMfUI/sharedComp";
 
 import { CustomDialog } from "../../../sharedComponents/dialog";
 

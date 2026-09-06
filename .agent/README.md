@@ -1,12 +1,12 @@
-# OdBites Admin FE Agent Notes
+# The ODC Admin FE Agent Notes
 
 This folder is the admin frontend repo-local context for future agents.
 
 ## Purpose
 
-`OdBites-Admin-FE` is the admin host app. It owns admin business pages and
+`The ODC-Admin-FE` is the admin host app. It owns admin business pages and
 consumes shared layouts, theme, components, hooks, helpers, and utilities from
-`OdBites-Mf-UI`.
+`The ODC-Mf-UI`.
 
 ## Stack
 
@@ -31,6 +31,6 @@ consumes shared layouts, theme, components, hooks, helpers, and utilities from
 
 ## External Dependencies
 
-- `OdBites-Mf-UI` must serve `remoteEntry.js`.
-- `OdBites-BE` must serve admin API routes.
+- `The ODC-Mf-UI` must serve `remoteEntry.js`.
+- `The ODC-BE` must serve admin API routes.
 - Admin account creation is not part of this UI. This UI manages customer users.

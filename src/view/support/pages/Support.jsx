@@ -12,7 +12,6 @@ import { useSupport } from "../hooks";
 
 function Support() {
   const {
-    theme,
     isMobile,
     selectedCustomerId,
     setSelectedCustomerId,
@@ -37,9 +36,6 @@ function Support() {
     handleSend,
     handleResolve,
     handleSelectOrder,
-    formatTime,
-    formatAmount,
-    formatDate,
   } = useSupport();
 
   return (
@@ -56,7 +52,6 @@ function Support() {
           }}
         >
           <SidebarSessionsList
-            theme={theme}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             activeTab={activeTab}
@@ -65,7 +60,6 @@ function Support() {
             filteredSessions={filteredSessions}
             selectedCustomerId={selectedCustomerId}
             setSelectedCustomerId={setSelectedCustomerId}
-            formatTime={formatTime}
           />
         </Grid>
 
@@ -78,7 +72,6 @@ function Support() {
           }}
         >
           <ChatWindow
-            theme={theme}
             selectedCustomerSession={selectedCustomerSession}
             setSelectedCustomerId={setSelectedCustomerId}
             isMobile={isMobile}
@@ -87,7 +80,6 @@ function Support() {
             handleResolve={handleResolve}
             isMessagesLoading={isMessagesLoading}
             messages={messages}
-            formatTime={formatTime}
             messagesEndRef={messagesEndRef}
             messageText={messageText}
             setMessageText={setMessageText}
@@ -110,14 +102,11 @@ function Support() {
         }}
       >
         <CustomerProfilePanel
-          theme={theme}
           selectedCustomerSession={selectedCustomerSession}
           setInfoOpen={setInfoOpen}
           linkedOrder={linkedOrder}
           linkedOrderId={linkedOrderId}
           recentOrders={recentOrders}
-          formatAmount={formatAmount}
-          formatDate={formatDate}
           handleSelectOrder={handleSelectOrder}
         />
       </Drawer>

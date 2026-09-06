@@ -7,6 +7,7 @@ import {
   Divider,
   Chip,
   alpha,
+  useTheme,
 } from "@mui/material";
 import {
   AddShoppingCart,
@@ -20,10 +21,11 @@ import {
   Replay,
 } from "@mui/icons-material";
 import PropTypes from "prop-types";
-import { COLORS, STATUS_COLORS } from "OdBitesMfUI/theme";
-import { formatCurrency } from "OdBitesMfUI/utility";
+import { COLORS, STATUS_COLORS } from "TheOdcMfUI/theme";
+import { formatCurrency } from "TheOdcMfUI/utility";
 
-function SummaryCards({ theme, summary }) {
+function SummaryCards({ summary }) {
+  const theme = useTheme();
   return (
     <Grid container spacing={3}>
       {/* Card 1: Revenue */}
@@ -365,7 +367,6 @@ function SummaryCards({ theme, summary }) {
 }
 
 SummaryCards.propTypes = {
-  theme: PropTypes.object.isRequired,
   summary: PropTypes.object.isRequired,
 };
 

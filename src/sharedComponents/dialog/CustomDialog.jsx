@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import {
   Dialog,
   DialogActions,
@@ -7,9 +8,9 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { Button } from "OdBitesMfUI/sharedComp";
 import { Close } from "@mui/icons-material";
-import PropTypes from "prop-types";
+
+import { Button } from "TheOdcMfUI/sharedComp";
 
 function CustomDialog({
   children,

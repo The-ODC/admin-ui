@@ -11,9 +11,9 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       federation({
-        name: "OdBitesAdminFE",
+        name: "TheOdcAdminFE",
         remotes: {
-          OdBitesMfUI: `${env.VITE_MF_REMOTE_URL}/assets/remoteEntry.js`,
+          TheOdcMfUI: `${env.VITE_MF_REMOTE_URL}/assets/remoteEntry.js`,
         },
         shared: {
           react: {

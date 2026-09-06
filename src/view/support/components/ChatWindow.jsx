@@ -10,6 +10,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useTheme,
 } from "@mui/material";
 import {
   ArrowBack,
@@ -20,9 +21,9 @@ import {
   SupportAgent,
 } from "@mui/icons-material";
 
-import { RenderIf } from "OdBitesMfUI/helpers";
-import { Button } from "OdBitesMfUI/sharedComp";
-import { getInitials } from "OdBitesMfUI/utility";
+import { RenderIf } from "TheOdcMfUI/helpers";
+import { Button } from "TheOdcMfUI/sharedComp";
+import { formatTime, getInitials } from "TheOdcMfUI/utility";
 
 const getDateLabel = (dateStr) => {
   if (!dateStr) return "";
@@ -58,7 +59,6 @@ const getDateLabel = (dateStr) => {
 };
 
 export default function ChatWindow({
-  theme,
   selectedCustomerSession,
   setSelectedCustomerId,
   isMobile,
@@ -67,13 +67,13 @@ export default function ChatWindow({
   handleResolve,
   isMessagesLoading,
   messages,
-  formatTime,
   messagesEndRef,
   messageText,
   setMessageText,
   isSending,
   handleSend,
 }) {
+  const theme = useTheme();
   if (!selectedCustomerSession) {
     return (
       <Card
@@ -497,7 +497,6 @@ export default function ChatWindow({
 }
 
 ChatWindow.propTypes = {
-  theme: PropTypes.object.isRequired,
   selectedCustomerSession: PropTypes.object,
   setSelectedCustomerId: PropTypes.func.isRequired,
   isMobile: PropTypes.bool,
@@ -506,7 +505,6 @@ ChatWindow.propTypes = {
   handleResolve: PropTypes.func.isRequired,
   isMessagesLoading: PropTypes.bool.isRequired,
   messages: PropTypes.array.isRequired,
-  formatTime: PropTypes.func.isRequired,
   messagesEndRef: PropTypes.object.isRequired,
   messageText: PropTypes.string.isRequired,
   setMessageText: PropTypes.func.isRequired,

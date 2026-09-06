@@ -6,7 +6,7 @@ import {
   LockResetTwoTone,
 } from "@mui/icons-material";
 
-import { Button, FormInput } from "OdBitesMfUI/sharedComp";
+import { Button, FormInput } from "TheOdcMfUI/sharedComp";
 
 import { useResetPassword } from "../hooks";
 

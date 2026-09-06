@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Box, Container, Typography, Stack, Link } from "@mui/material";
 
-import { Button, FormInput } from "OdBitesMfUI/sharedComp";
+import { Button, FormInput } from "TheOdcMfUI/sharedComp";
 
 import { useSignIn } from "../hooks";
 

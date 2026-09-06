@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from "react";
 
-import { StatusChip } from "OdBitesMfUI/sharedComp";
+import { StatusChip } from "TheOdcMfUI/sharedComp";
 
 import { TableAction } from "../../../sharedComponents";
 

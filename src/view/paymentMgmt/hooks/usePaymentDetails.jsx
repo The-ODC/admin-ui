@@ -1,8 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { StatusChip } from "OdBitesMfUI/sharedComp";
-import { formatCurrency } from "OdBitesMfUI/utility";
+import { StatusChip } from "TheOdcMfUI/sharedComp";
+import { formatCurrency } from "TheOdcMfUI/utility";
 
 import { useGetPaymentByIdQuery } from "../../../store/rtkServices/paymentsMgmt";
 

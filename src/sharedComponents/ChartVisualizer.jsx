@@ -23,7 +23,8 @@ import {
   CartesianGrid,
 } from "recharts";
 import { Typography, useTheme, Box } from "@mui/material";
-import { CHART_PALETTE, COLORS } from "OdBitesMfUI/theme";
+
+import { CHART_PALETTE, COLORS } from "TheOdcMfUI/theme";
 
 // Custom tooltip card
 const CustomPieTooltip = ({ active, payload }) => {

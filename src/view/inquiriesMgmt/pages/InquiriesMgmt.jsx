@@ -15,7 +15,7 @@ import {
   CheckCircle,
 } from "@mui/icons-material";
 
-import { COLORS } from "OdBitesMfUI/theme";
+import { COLORS } from "TheOdcMfUI/theme";
 
 import { DataTable, PageHeader } from "../../../sharedComponents";
 import { CustomAlertDialog } from "../../../sharedComponents/dialog";

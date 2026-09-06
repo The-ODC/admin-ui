@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Box, Card, Divider, Grid, Stack, Typography } from "@mui/material";
 import { DriveFileRenameOutline } from "@mui/icons-material";
 
-import { Button } from "OdBitesMfUI/sharedComp";
+import { Button } from "TheOdcMfUI/sharedComp";
 
 import { PageHeader } from "../../../sharedComponents";
 import { ProductDetailsSkeleton, ProductImageGallery } from "../components";

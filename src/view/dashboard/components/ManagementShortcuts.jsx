@@ -1,12 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { Box, Card, Grid, Typography, alpha } from "@mui/material";
+import { Box, Card, Grid, Typography, alpha, useTheme } from "@mui/material";
 import { Group, Inventory, LocalDining } from "@mui/icons-material";
-import PropTypes from "prop-types";
 
-import { Button } from "OdBitesMfUI/sharedComp";
+import { Button } from "TheOdcMfUI/sharedComp";
 
-function ManagementShortcuts({ theme }) {
+function ManagementShortcuts() {
+  const theme = useTheme();
   return (
     <Box>
       <Typography variant="h6" fontWeight="bold" mb={2}>
@@ -237,9 +237,5 @@ function ManagementShortcuts({ theme }) {
     </Box>
   );
 }
-
-ManagementShortcuts.propTypes = {
-  theme: PropTypes.object.isRequired,
-};
 
 export default ManagementShortcuts;

@@ -13,7 +13,7 @@ import {
   useTheme,
 } from "@mui/material";
 
-import { NoData } from "OdBitesMfUI/helpers";
+import { NoData } from "TheOdcMfUI/helpers";
 
 const DataTable = ({
   columns = [],
@@ -36,8 +36,8 @@ const DataTable = ({
       component={Paper}
       sx={{
         position: "relative",
-        background: theme.palette.background.default,
-        boxShadow: theme.shadows[3],
+        background: theme.palette.background.paper,
+        boxShadow: "none",
         maxWidth: {
           xs: `calc(100vw - 2rem)`,
           md: `calc(100vw - (270px + 7rem))`,
@@ -47,7 +47,12 @@ const DataTable = ({
         ...sx,
       }}
     >
-      <Table stickyHeader>
+      <Table
+        stickyHeader
+        sx={{
+          minHeight: (rows || []).length === 0 ? minHeight : "auto",
+        }}
+      >
         <TableHead>
           <TableRow>
             {columns.map((column) => (

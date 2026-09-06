@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import {
   Visibility,
@@ -8,7 +9,6 @@ import {
   Block,
   LockOpen,
 } from "@mui/icons-material";
-import { NavLink } from "react-router-dom";
 
 function TableAction({ view, edit, remove, block, unBlock, isBlocked }) {
   const actionButtons = [

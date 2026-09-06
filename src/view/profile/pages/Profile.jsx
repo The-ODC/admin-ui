@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Card, Divider, Grid, Stack, Typography } from "@mui/material";
 
-import { AvatarUpload, Button, FormInput } from "OdBitesMfUI/sharedComp";
+import { AvatarUpload, Button, FormInput } from "TheOdcMfUI/sharedComp";
 
 import { PageHeader } from "../../../sharedComponents";
 import { ProfileSkeleton, UpdatePasswordModal } from "../components";

@@ -15,8 +15,8 @@ import {
   PhoneAndroid,
 } from "@mui/icons-material";
 
-import { AvatarUpload, Button } from "OdBitesMfUI/sharedComp";
-import { formatCurrency } from "OdBitesMfUI/utility";
+import { AvatarUpload, Button } from "TheOdcMfUI/sharedComp";
+import { formatCurrency } from "TheOdcMfUI/utility";
 
 import { PageHeader } from "../../../sharedComponents";
 import { AddEditUserModal, UserDetailsSkeleton } from "../components";

@@ -42,8 +42,8 @@ reloads the page after login.
 
 - This app should use admin auth only.
 - This app should call admin API routes only.
-- Customer-facing auth and `/customer` routes belong to `OdBites-User-FE`.
-- Admin account provisioning belongs to `OdBites-BE`, not this UI.
+- Customer-facing auth and `/customer` routes belong to `The ODC-User-FE`.
+- Admin account provisioning belongs to `The ODC-BE`, not this UI.
 
 ## Data Consistency Notes
 

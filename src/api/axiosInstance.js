@@ -1,6 +1,6 @@
 import axios from "axios";
-import { createAxiosInstance } from "OdBitesMfUI/utility/http";
-import { cookies } from "OdBitesMfUI/utility";
+import { createAxiosInstance } from "TheOdcMfUI/utility/http";
+import { cookies } from "TheOdcMfUI/utility";
 import { VITE_APP_API_URL } from "../config/env";
 import { errorHandler } from "../utility";
 

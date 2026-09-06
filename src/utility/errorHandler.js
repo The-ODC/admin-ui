@@ -1,5 +1,5 @@
-import { handleApiError } from "OdBitesMfUI/utility/http";
-import { cookies } from "OdBitesMfUI/utility";
+import { handleApiError } from "TheOdcMfUI/utility/http";
+import { cookies } from "TheOdcMfUI/utility";
 import { toaster } from "./";
 
 export default function errorHandler(error = {}) {
@@ -8,7 +8,7 @@ export default function errorHandler(error = {}) {
     onUnauthorized: () => {
       cookies.removeCookie("admin_auth_token");
       cookies.removeCookie("admin_id");
-      cookies.removeCookie("admin_theme");
+      cookies.removeCookie("theODC_admin_theme");
       window.location.reload();
     },
   });

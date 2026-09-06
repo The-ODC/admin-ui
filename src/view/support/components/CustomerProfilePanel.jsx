@@ -9,24 +9,23 @@ import {
   Link,
   Stack,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Close, Email, Phone } from "@mui/icons-material";
 
-import { RenderIf } from "OdBitesMfUI/helpers";
-import { Button, StatusChip } from "OdBitesMfUI/sharedComp";
-import { getInitials } from "OdBitesMfUI/utility";
+import { RenderIf } from "TheOdcMfUI/helpers";
+import { Button, StatusChip } from "TheOdcMfUI/sharedComp";
+import { formatCurrency, formatDate, getInitials } from "TheOdcMfUI/utility";
 
 export default function CustomerProfilePanel({
-  theme,
   selectedCustomerSession,
   setInfoOpen,
   linkedOrder,
   linkedOrderId,
   recentOrders,
-  formatAmount,
-  formatDate,
   handleSelectOrder,
 }) {
+  const theme = useTheme();
   const cust = selectedCustomerSession?.customer;
   if (!cust) return null;
 
@@ -162,7 +161,10 @@ export default function CustomerProfilePanel({
               alignItems="center"
             >
               <Typography variant="caption" color="text.secondary">
-                INR {formatAmount(linkedOrder?.totalAmount)}
+                INR{" "}
+                {formatCurrency(linkedOrder?.totalAmount, {
+                  showSymbol: false,
+                })}
               </Typography>
               <StatusChip status={linkedOrder?.status} />
             </Box>
@@ -253,7 +255,8 @@ export default function CustomerProfilePanel({
                     alignItems="center"
                   >
                     <Typography variant="caption" fontWeight={700}>
-                      INR {formatAmount(order.totalAmount)}
+                      INR{" "}
+                      {formatCurrency(order.totalAmount, { showSymbol: false })}
                     </Typography>
                     <StatusChip status={order.status} />
                   </Box>
@@ -287,13 +290,10 @@ export default function CustomerProfilePanel({
 }
 
 CustomerProfilePanel.propTypes = {
-  theme: PropTypes.object.isRequired,
   selectedCustomerSession: PropTypes.object,
   setInfoOpen: PropTypes.func.isRequired,
   linkedOrder: PropTypes.object,
   linkedOrderId: PropTypes.string,
   recentOrders: PropTypes.array.isRequired,
-  formatAmount: PropTypes.func.isRequired,
-  formatDate: PropTypes.func.isRequired,
   handleSelectOrder: PropTypes.func.isRequired,
 };

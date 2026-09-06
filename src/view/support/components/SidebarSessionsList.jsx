@@ -15,15 +15,15 @@ import {
   Stack,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { Search, ShoppingBag, SupportAgent } from "@mui/icons-material";
 
-import { RenderIf } from "OdBitesMfUI/helpers";
-import { Button } from "OdBitesMfUI/sharedComp";
-import { getInitials } from "OdBitesMfUI/utility";
+import { RenderIf } from "TheOdcMfUI/helpers";
+import { Button } from "TheOdcMfUI/sharedComp";
+import { formatTime, getInitials } from "TheOdcMfUI/utility";
 
 export default function SidebarSessionsList({
-  theme,
   searchQuery,
   setSearchQuery,
   activeTab,
@@ -32,8 +32,8 @@ export default function SidebarSessionsList({
   filteredSessions,
   selectedCustomerId,
   setSelectedCustomerId,
-  formatTime,
 }) {
+  const theme = useTheme();
   return (
     <Card
       sx={{
@@ -307,7 +307,6 @@ export default function SidebarSessionsList({
 }
 
 SidebarSessionsList.propTypes = {
-  theme: PropTypes.object.isRequired,
   searchQuery: PropTypes.string.isRequired,
   setSearchQuery: PropTypes.func.isRequired,
   activeTab: PropTypes.string.isRequired,
@@ -316,5 +315,4 @@ SidebarSessionsList.propTypes = {
   filteredSessions: PropTypes.array.isRequired,
   selectedCustomerId: PropTypes.string,
   setSelectedCustomerId: PropTypes.func.isRequired,
-  formatTime: PropTypes.func.isRequired,
 };

@@ -20,7 +20,7 @@ import {
   Restaurant,
 } from "@mui/icons-material";
 
-import { Button } from "OdBitesMfUI/sharedComp";
+import { Button } from "TheOdcMfUI/sharedComp";
 
 import { PageHeader } from "../../../sharedComponents";
 import { OrderDetailsSkeleton } from "../components";

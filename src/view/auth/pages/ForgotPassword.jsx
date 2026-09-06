@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Avatar, Box, Container, Link, Stack, Typography } from "@mui/material";
 import { MarkEmailReadTwoTone } from "@mui/icons-material";
 
-import { Button, FormInput } from "OdBitesMfUI/sharedComp";
+import { Button, FormInput } from "TheOdcMfUI/sharedComp";
 
 import { useForgetPassword } from "../hooks";
 

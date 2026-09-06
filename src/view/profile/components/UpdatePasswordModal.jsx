@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 
-import { FormInput } from "OdBitesMfUI/sharedComp";
+import { FormInput } from "TheOdcMfUI/sharedComp";
 
 import { CustomDialog } from "../../../sharedComponents/dialog";
 

@@ -17,8 +17,8 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
-import { Button, StatusChip } from "OdBitesMfUI/sharedComp";
-import { formatDateTime } from "OdBitesMfUI/utility";
+import { Button, StatusChip } from "TheOdcMfUI/sharedComp";
+import { formatDateTime } from "TheOdcMfUI/utility";
 
 export default function InquiryDetailsDialog({
   open,

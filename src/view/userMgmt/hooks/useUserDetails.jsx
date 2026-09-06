@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { StatusChip } from "OdBitesMfUI/sharedComp";
+import { StatusChip } from "TheOdcMfUI/sharedComp";
 
 import {
   useGetUserByIdQuery,

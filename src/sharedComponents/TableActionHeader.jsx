@@ -11,7 +11,8 @@ import {
   TextField,
 } from "@mui/material";
 import { Clear, Search } from "@mui/icons-material";
-import { RenderIf } from "OdBitesMfUI/helpers";
+
+import { RenderIf } from "TheOdcMfUI/helpers";
 
 function TableActionHeader({
   searchLabel = "Search...",

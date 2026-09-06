@@ -1,5 +1,5 @@
 import React from "react";
-import { RestrictedToGuests } from "OdBitesMfUI/hoc";
+import { RestrictedToGuests } from "TheOdcMfUI/hoc";
 
 export const userRoutes = [
   {

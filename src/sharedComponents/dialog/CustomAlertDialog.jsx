@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import {
   Dialog,
   DialogActions,
@@ -6,8 +7,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { Button } from "OdBitesMfUI/sharedComp";
-import PropTypes from "prop-types";
+
+import { Button } from "TheOdcMfUI/sharedComp";
 
 function CustomAlertDialog({
   open,

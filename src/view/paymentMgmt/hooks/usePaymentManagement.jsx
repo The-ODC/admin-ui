@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from "react";
 
-import { StatusChip } from "OdBitesMfUI/sharedComp";
-import { formatCurrency } from "OdBitesMfUI/utility";
+import { StatusChip } from "TheOdcMfUI/sharedComp";
+import { formatCurrency } from "TheOdcMfUI/utility";
 
 import { TableAction } from "../../../sharedComponents";
 

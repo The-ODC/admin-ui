@@ -18,6 +18,7 @@ import {
   Alert,
   Slide,
   TextField,
+  IconButton,
 } from "@mui/material";
 import {
   NotificationImportant,
@@ -30,8 +31,8 @@ import {
   ShoppingBag,
 } from "@mui/icons-material";
 
-import { Button, IconButton } from "OdBitesMfUI/sharedComp";
-import { formatCurrency } from "OdBitesMfUI/utility";
+import { Button } from "TheOdcMfUI/sharedComp";
+import { formatCurrency } from "TheOdcMfUI/utility";
 
 import { useOrderQueueNotifier } from "./hooks";
 

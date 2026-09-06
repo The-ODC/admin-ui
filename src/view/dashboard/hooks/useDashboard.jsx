@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Avatar, Box, Typography, useTheme, alpha } from "@mui/material";
-import { formatCurrency } from "OdBitesMfUI/utility";
+import { formatCurrency } from "TheOdcMfUI/utility";
 
 import { useFetchDashboardDataQuery } from "../../../store/rtkServices/dashboard";
 import { orderColumns, userColumns } from "../../../data/dashboard";
@@ -192,7 +192,6 @@ export function useDashboard() {
   }, []);
 
   return {
-    theme,
     timeframe,
     setTimeframe,
     summary,

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { io } from "socket.io-client";
 import { useTheme, useMediaQuery } from "@mui/material";
 
-import { cookies, formatCurrency, formatDate } from "OdBitesMfUI/utility";
+import { cookies, formatCurrency, formatDate } from "TheOdcMfUI/utility";
 
 import {
   useFetchSupportSessionsQuery,
@@ -217,7 +217,7 @@ export function useSupport() {
       `Order Details:\n` +
       `Order ID: ${order.orderId || "N/A"}\n` +
       `Status: ${order.status || "N/A"}\n` +
-      `Amount: INR ${formatAmount(order.totalAmount)}\n` +
+      `Amount: INR ${formatCurrency(order.totalAmount, { showSymbol: false })}\n` +
       `Date: ${formatDate(order.orderDate)}\n` +
       `Items: ${itemsList}\n\n` +
       `Is this the order you need help with?`;
@@ -251,23 +251,7 @@ export function useSupport() {
     }
   };
 
-  /*
-    Formatting & Utility Helpers
-   */
-  const formatAmount = (value) => formatCurrency(value, { showSymbol: false });
-
-  const formatTime = (dateStr) => {
-    if (!dateStr) return "";
-    const date = new Date(dateStr);
-    return date.toLocaleTimeString("en-IN", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
   return {
-    theme,
     isMobile,
     selectedCustomerId,
     setSelectedCustomerId,
@@ -289,9 +273,6 @@ export function useSupport() {
     handleSend,
     handleResolve,
     handleSelectOrder,
-    formatTime,
-    formatAmount,
-    formatDate,
     infoOpen,
     setInfoOpen,
     linkedOrderId,

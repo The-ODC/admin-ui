@@ -9,8 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 
-import { RenderIf } from "OdBitesMfUI/helpers";
-import { Button, FormInput } from "OdBitesMfUI/sharedComp";
+import { RenderIf } from "TheOdcMfUI/helpers";
+import { Button, FormInput } from "TheOdcMfUI/sharedComp";
 
 import { PageHeader } from "../../../sharedComponents";
 import { AddEditProductSkeleton } from "../components";

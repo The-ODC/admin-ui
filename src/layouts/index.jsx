@@ -2,8 +2,8 @@ import React, { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import packageJson from "../../package.json";
 
-import { AdminLayout } from "OdBitesMfUI/layouts";
-import { useCookies } from "OdBitesMfUI/hooks";
+import { AdminLayout } from "TheOdcMfUI/layouts";
+import { useCookies } from "TheOdcMfUI/hooks";
 
 import { adminMenuItems } from "../constant";
 import { OrderQueueNotifier } from "../sharedComponents";

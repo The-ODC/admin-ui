@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { adminSignInThunk } from "../../thunkServices/auth";
-import { cookies } from "OdBitesMfUI/utility";
+import { cookies } from "TheOdcMfUI/utility";
 
 const initialState = {
   user: null,
@@ -8,7 +8,7 @@ const initialState = {
   loading: false,
   error: null,
 };
-const currentTheme = cookies.getCookie("admin_theme") || "dark";
+const currentTheme = cookies.getCookie("theODC_admin_theme") || "dark";
 const authSlice = createSlice({
   name: "authSlice",
   initialState,
@@ -26,7 +26,7 @@ const authSlice = createSlice({
         path: "/",
         sameSite: "Lax",
       });
-      cookies.setCookie("admin_theme", currentTheme, {
+      cookies.setCookie("theODC_admin_theme", currentTheme, {
         maxAgeDays: 1,
         path: "/",
       });

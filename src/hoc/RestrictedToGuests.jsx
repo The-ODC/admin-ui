@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useCookies } from "OdBitesMfUI/hooks";
+import { useCookies } from "TheOdcMfUI/hooks";
 
 const RestrictedToGuests = (WrappedComponent) => {
   const Wrapped = (props) => {

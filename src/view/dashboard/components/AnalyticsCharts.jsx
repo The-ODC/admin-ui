@@ -1,10 +1,11 @@
 import React from "react";
-import { Grid, Card, Typography } from "@mui/material";
+import { Grid, Card, Typography, useTheme } from "@mui/material";
 import PropTypes from "prop-types";
 
 import { ChartVisualizer } from "../../../sharedComponents";
 
-function AnalyticsCharts({ theme, salesOverview, productDemandAnalytics }) {
+function AnalyticsCharts({ salesOverview, productDemandAnalytics }) {
+  const theme = useTheme();
   return (
     <Grid container spacing={3}>
       {/* Sales Overview Area Chart */}
@@ -75,7 +76,6 @@ function AnalyticsCharts({ theme, salesOverview, productDemandAnalytics }) {
 }
 
 AnalyticsCharts.propTypes = {
-  theme: PropTypes.object.isRequired,
   salesOverview: PropTypes.array.isRequired,
   productDemandAnalytics: PropTypes.array.isRequired,
 };

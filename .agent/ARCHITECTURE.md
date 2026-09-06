@@ -52,11 +52,11 @@ outside it.
 
 - This repo owns admin pages, admin-specific tables, feature hooks, constants,
   RTK Query services, and local utilities.
-- `OdBites-Mf-UI` owns shared visual primitives, layouts, theme, cookies,
+- `The ODC-Mf-UI` owns shared visual primitives, layouts, theme, cookies,
   shared hooks, and generic helpers.
-- `OdBites-BE` owns data, auth, uploads, and admin/customer security.
+- `The ODC-BE` owns data, auth, uploads, and admin/customer security.
 
 ## Admin Identity Rule
 
 This UI must not add admin account creation screens. Admin accounts are
-backend-provisioned with `bun create-admin` in `OdBites-BE`.
+backend-provisioned with `bun create-admin` in `The ODC-BE`.

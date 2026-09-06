@@ -1,7 +1,7 @@
 import React from "react";
 import { Card } from "@mui/material";
 
-import { Button } from "OdBitesMfUI/sharedComp";
+import { Button } from "TheOdcMfUI/sharedComp";
 
 import {
   DataTable,
