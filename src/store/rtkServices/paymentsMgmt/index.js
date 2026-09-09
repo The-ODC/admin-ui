@@ -5,6 +5,7 @@ import { adminApiEndpoints } from "../../../api/adminEndpoints";
 export const paymentsService = createApi({
   reducerPath: "paymentsService",
   baseQuery: axiosBaseQuery(),
+  tagTypes: ["Payments", "PaymentDetails"],
   endpoints: (builder) => ({
     getPayments: builder.query({
       query: ({
@@ -39,6 +40,16 @@ export const paymentsService = createApi({
           method: "GET",
         };
       },
+      providesTags: (result) =>
+        result?.data
+          ? [
+              ...result.data.map(({ id, _id }) => ({
+                type: "Payments",
+                id: id || _id,
+              })),
+              { type: "Payments", id: "LIST" },
+            ]
+          : [{ type: "Payments", id: "LIST" }],
       transformResponse: (response) => response,
     }),
 
@@ -47,7 +58,21 @@ export const paymentsService = createApi({
         url: adminApiEndpoints.payments.payment(id),
         method: "GET",
       }),
+      providesTags: (result, error, id) => [{ type: "PaymentDetails", id }],
       transformResponse: (response) => response?.data ?? {},
+    }),
+
+    refundPayment: builder.mutation({
+      query: ({ id, amount, reason }) => ({
+        url: adminApiEndpoints.payments.refund(id),
+        method: "POST",
+        data: { amount, reason },
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "PaymentDetails", id },
+        { type: "Payments", id: "LIST" },
+      ],
+      transformResponse: (response) => response,
     }),
 
     exportPayments: builder.query({
@@ -81,5 +106,6 @@ export const paymentsService = createApi({
 export const {
   useGetPaymentsQuery,
   useGetPaymentByIdQuery,
+  useRefundPaymentMutation,
   useLazyExportPaymentsQuery,
 } = paymentsService;

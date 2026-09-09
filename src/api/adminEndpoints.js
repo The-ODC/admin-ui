@@ -27,11 +27,14 @@ export const adminApiEndpoints = {
     base: adminPath("/orders"),
     order: (id) => adminPath(`/orders/${id}`),
     status: (id) => adminPath(`/orders/${id}/status`),
+    paymentQr: (id) => adminPath(`/orders/${id}/payment-qr`),
+    collectPayment: (id) => adminPath(`/orders/${id}/collect-payment`),
     export: adminPath("/orders/export"),
   },
   payments: {
     base: adminPath("/payments"),
     payment: (id) => adminPath(`/payments/${id}`),
+    refund: (id) => adminPath(`/payments/${id}/refund`),
     export: adminPath("/payments/export"),
   },
   profile: {

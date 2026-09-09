@@ -76,6 +76,7 @@ function InquiriesMgmt() {
     isUpdatingStatus,
     isAddingNote,
     deleteConfirm,
+    isDeleting,
     handleChangePage,
     handleChangeRowsPerPage,
     handleStatusTabChange,

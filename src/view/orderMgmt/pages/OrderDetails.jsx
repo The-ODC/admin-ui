@@ -19,6 +19,7 @@ import {
   Person,
   Phone,
   PhoneAndroid,
+  QrCode2,
   Replay,
   Restaurant,
   StickyNote2,
@@ -28,7 +29,7 @@ import { Button } from "TheOdcMfUI/sharedComp";
 import { buildAssetUrl } from "TheOdcMfUI/utility";
 
 import { PageHeader } from "../../../sharedComponents";
-import { OrderDetailsSkeleton } from "../components";
+import { OrderDetailsSkeleton, PaymentQrDialog } from "../components";
 
 import { VITE_APP_ASSETS_PATH } from "../../../config/env";
 import { useOrderDetails } from "../hooks";
@@ -113,6 +114,15 @@ function OrderDetails() {
     isUpdatingStatus,
 
     /*
+      Payment QR State
+     */
+    isPaid,
+    canGeneratePaymentQr,
+    paymentQrOpen,
+    handleOpenPaymentQr,
+    handleClosePaymentQr,
+
+    /*
       Event Handler Callbacks
      */
     handleStatusUpdate,
@@ -142,7 +152,7 @@ function OrderDetails() {
         <OrderDetailsSkeleton />
       ) : (
         <Stack spacing={3}>
-          {actions.length > 0 && (
+          {(actions.length > 0 || canGeneratePaymentQr) && (
             <Card>
               <Typography variant="h6" gutterBottom>
                 Admin Actions
@@ -164,6 +174,18 @@ function OrderDetails() {
                     </Button>
                   );
                 })}
+
+                {canGeneratePaymentQr && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<QrCode2 />}
+                    disabled={isFetching || isUpdatingStatus}
+                    onClick={handleOpenPaymentQr}
+                  >
+                    Generate Payment QR
+                  </Button>
+                )}
               </Stack>
             </Card>
           )}
@@ -500,6 +522,15 @@ function OrderDetails() {
           </Card>
         </Stack>
       )}
+
+      {/* Dynamic Payment QR Dialog */}
+      <PaymentQrDialog
+        open={paymentQrOpen}
+        onClose={handleClosePaymentQr}
+        orderId={order?.orderId || orderId}
+        orderTotal={order?.totalAmount || 0}
+        isPaid={isPaid}
+      />
     </>
   );
 }

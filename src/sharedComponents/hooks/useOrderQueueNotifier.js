@@ -1,14 +1,17 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { io } from "socket.io-client";
 import { cookies } from "TheOdcMfUI/utility";
 import { VITE_APP_API_URL } from "../../config/env";
 import {
+  ordersService,
   useUpdateOrderStatusMutation,
-  useGetOrdersQuery,
 } from "../../store/rtkServices/ordersMgmt";
+import { paymentsService } from "../../store/rtkServices/paymentsMgmt";
 import { useGetProductsQuery } from "../../store/rtkServices/productsMgmt";
 
 export default function useOrderQueueNotifier() {
+  const dispatch = useDispatch();
   const [incomingQueue, setIncomingQueue] = useState([]);
   const [isAudioBlocked, setIsAudioBlocked] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -24,27 +27,6 @@ export default function useOrderQueueNotifier() {
   // Load all products for stock verification
   const { data: productsPayload } = useGetProductsQuery({ limit: 1000 });
   const products = productsPayload?.data?.products || [];
-
-  // Load initial pending orders on mount
-  const { data: initialOrdersData } = useGetOrdersQuery({
-    status: "ordered",
-    limit: 100,
-  });
-
-  useEffect(() => {
-    if (initialOrdersData?.data) {
-      setIncomingQueue((prev) => {
-        const merged = [...prev];
-        const existingIds = new Set(prev.map((o) => o.orderId));
-        initialOrdersData.data.forEach((order) => {
-          if (!existingIds.has(order.orderId)) {
-            merged.push(order);
-          }
-        });
-        return merged;
-      });
-    }
-  }, [initialOrdersData]);
 
   // Active order is always the first one in the queue
   const activeOrder = incomingQueue[0] || null;
@@ -91,14 +73,26 @@ export default function useOrderQueueNotifier() {
         if (prev.some((o) => o.orderId === order.orderId)) return prev;
         return [...prev, order];
       });
+
+      // Synchronize Orders table & Payments table in real-time
+      dispatch(ordersService.util.invalidateTags(["Order"]));
+      dispatch(paymentsService.util.invalidateTags(["Payments"]));
     };
 
     socketInstance.on("new_order", handleNewOrder);
 
-    // Keep queue updated if order was processed elsewhere/externally
+    // Keep queue and tables updated if order was processed elsewhere/externally
     const handleStatusUpdated = (updatedOrder) => {
       setIncomingQueue((prev) =>
         prev.filter((o) => o.orderId !== updatedOrder.orderId)
+      );
+
+      // Synchronize background views in real-time
+      dispatch(ordersService.util.invalidateTags(["Order"]));
+      dispatch(paymentsService.util.invalidateTags(["Payments"]));
+
+      window.dispatchEvent(
+        new CustomEvent("order_status_updated", { detail: updatedOrder })
       );
     };
 
@@ -110,7 +104,7 @@ export default function useOrderQueueNotifier() {
         console.log("Order queue notifier socket disconnected.");
       }
     };
-  }, []);
+  }, [dispatch]);
 
   // Handle Loop Audio Ringing
   useEffect(() => {

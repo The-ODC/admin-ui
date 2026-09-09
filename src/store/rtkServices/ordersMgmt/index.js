@@ -5,7 +5,7 @@ import { adminApiEndpoints } from "../../../api/adminEndpoints";
 export const ordersService = createApi({
   reducerPath: "ordersService",
   baseQuery: axiosBaseQuery(),
-  tagTypes: ["Order"],
+  tagTypes: ["Order", "OrderQr"],
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: ({
@@ -48,11 +48,34 @@ export const ordersService = createApi({
       providesTags: (result, error, id) => [{ type: "Order", id }],
     }),
 
+    getOrderPaymentQr: builder.query({
+      query: (id) => ({
+        url: adminApiEndpoints.orders.paymentQr(id),
+        method: "GET",
+      }),
+      transformResponse: (response) => response?.data ?? {},
+      providesTags: (result, error, id) => [{ type: "OrderQr", id }],
+    }),
+
+    collectPayment: builder.mutation({
+      query: ({ id, method, notes }) => ({
+        url: adminApiEndpoints.orders.collectPayment(id),
+        method: "POST",
+        data: { method, notes },
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Order", id },
+        { type: "OrderQr", id },
+        "Order",
+      ],
+      transformResponse: (response) => response,
+    }),
+
     updateOrderStatus: builder.mutation({
       query: ({ id, status, reason }) => ({
         url: adminApiEndpoints.orders.status(id),
         method: "PATCH",
-        body: { status, reason },
+        data: { status, reason },
       }),
       invalidatesTags: (result, error, { id }) => [
         { type: "Order", id },
@@ -91,6 +114,9 @@ export const ordersService = createApi({
 export const {
   useGetOrdersQuery,
   useGetOrderByIdQuery,
+  useGetOrderPaymentQrQuery,
+  useLazyGetOrderPaymentQrQuery,
+  useCollectPaymentMutation,
   useUpdateOrderStatusMutation,
   useLazyExportOrdersQuery,
 } = ordersService;

@@ -1,247 +1,297 @@
 ---
 trigger: always_on
-description: Guidelines for code structure, UI-hook separation, code splitting, and import statement ordering.
+description: Comprehensive rules for component architecture, UI-hook separation, MF reuse, Redux/RTK Query, theme tokens, and import ordering.
 ---
 
 # Code Writing Rules
 
-These rules define conventions for React components, hooks, API handling, Redux, Microfrontend (MF) reuse, code splitting, imports, and code quality.
+These rules define conventions for React components, hooks, API handling, Redux, Microfrontend (MF) reuse, code splitting, imports, theme standards, and code quality.
+
+---
 
 ## 1. Component Architecture & Code Splitting
 
-- Keep JSX/UI separate from complex business logic.
-- Keep API calls, Redux logic, Socket.IO logic, event handlers, and complex state logic in custom hooks or feature logic.
-- Pages should mainly compose hooks and components.
-- Keep components focused on one responsibility.
-- Split large or complex components into smaller components under the feature's `components/` folder.
-- Do not use an arbitrary line-count limit; split code when it becomes difficult to understand or maintain.
-- Use lazy loading for appropriate routes and large features.
-- Use `index.js` files for clean exports where useful.
+### Separation of Concerns
+
+- Keep JSX layout and presentation separate from complex business logic.
+- Keep stateful logic, API/RTK Query logic, Redux selectors/actions, Socket.IO logic, event handlers, and lifecycle logic in custom hooks or feature logic.
+- Pages should mainly act as containers that call hooks and compose presentation components.
+- Do not put large amounts of business logic directly inside JSX components. Keep components focused on a single responsibility.
+
+### Code Splitting & Index Exports
+
+- Split complex pages and components into smaller, reusable components under the feature's `components/` folder.
+- Do not create unnecessarily large component files; split code when it becomes difficult to understand, test, review, or maintain.
+- Use lazy loading for appropriate routes and large features with Suspense fallback UI.
+- Use clean `index.js` files for feature/module exports where useful. Avoid circular dependencies caused by barrel exports.
+
+---
 
 ## 2. Feature Structure
 
-Keep feature-specific code inside its feature:
+Organize application code by feature. Feature-specific code should stay inside its feature directory:
 
-```text id="zpkq9c"
+```text
 feature/
-├── api/
-├── components/
-├── hooks/
-├── pages/
-├── validation/
-└── index.js
+├── api/            # Feature-specific API endpoints
+├── components/     # Feature-specific UI components & sub-views
+├── hooks/          # Feature-specific custom React hooks
+├── pages/          # Feature page containers
+├── validation/     # Zod schema definitions
+└── index.js        # Feature barrel exports
 ```
 
-- Create only the folders that are needed.
-- Keep shared code in shared/global folders.
-- Do not move feature-specific code into global folders.
+- Create only necessary folders. Keep genuinely shared code in shared/global folders (`src/sharedComponents/`, `src/utility/`).
 
-## 3. Microfrontend (MF) Reuse
+---
 
-- Always check available MF remotes before creating new functionality.
-- Reuse existing MF components, hooks, utilities, helpers, and services whenever possible.
-- Do not copy MF source code into the local application.
-- Do not recreate functionality that already exists in an MF remote without a clear reason.
-- Prefer composition, props, wrappers, or supported extension points for customization.
-- Create local functionality only when the MF functionality does not exist or cannot reasonably satisfy the requirement.
-- Prefer **reuse → extend → create new**.
+## 3. Microfrontend (MF) & Client Shared Reuse
 
-## 4. API & Axios
+### Mandatory Pre-Creation Inspection Workflow
 
-- Use the shared Axios/API layer for backend communication.
-- Keep API functions outside UI components.
-- Keep feature-specific API functions in the appropriate API module.
-- Do not create unnecessary Axios instances.
-- Keep request/response handling separate from presentation logic.
+Before creating ANY new component, custom hook, utility function, helper, formatter, dialog, or service, developers MUST perform an exhaustive check in this exact priority sequence:
 
-## 5. Redux
+1. **Microfrontend Remotes (`TheOdcMfUI`)**: Check `TheOdcMfUI/sharedComp` (buttons, dialogs, forms, filterWrapper, pageHeader, statusChip, profileAvatar), `TheOdcMfUI/theme` (colors, gradients, status colors, chart palette), `TheOdcMfUI/utility` (formatters, assets, http, cookies, throttle), `TheOdcMfUI/hooks` (useStorageState, useLocalStorageState), and `TheOdcMfUI/helpers`.
+2. **Client Shared Modules**: Check `src/sharedComponents/`, `src/utility/`, `src/hooks/`, `src/helpers/`, and `src/store/`.
+3. **Current Feature Module**: Check existing feature components and hooks.
 
-- Use Redux Toolkit for shared/global client-side state.
-- Keep Redux slices focused on one domain.
+**Rule Hierarchy: Reuse First → Extend/Compose Second → Create New ONLY when no viable asset exists.**
+
+### Microfrontend (MF) Elevation Rule for Cross-Client Code
+
+- **If any component, hook, utility function, formatter, dialog, helper, or layout is required or used in BOTH client applications (`admin-ui` and `customer-ui`), it MUST NOT be duplicated in each client module.**
+- Instead, it must be elevated directly to the Microfrontend remote (`OdBites-Mf-UI` under `src/sharedComp/`, `src/utility/`, `src/hooks/`, or `src/theme/`), exposed via `vite.config.js`, and consumed in both client modules from `TheOdcMfUI`.
+- Do not copy MF source code into local applications. Prefer composition, props, wrappers, or supported extension points.
+
+---
+
+## 4. API & Redux (RTK Query) Layer
+
+- Use the shared Axios/API layer and **Redux Toolkit / RTK Query** for shared/global client-side state and data caching.
+- Keep RTK Query API mutations and queries in custom hooks or feature services.
 - Do not store temporary component UI state in Redux when `useState` is sufficient.
-- Do not duplicate API data in Redux if it can remain in the API/data layer.
-- Keep Redux actions/selectors related to their feature when possible.
+- Do not duplicate API data in Redux slices if it can remain in the RTK Query cache.
+- Always handle loading, success, error, and empty states properly.
 
-## 6. Custom Hooks
+Recommended data flow:
 
-- Use custom hooks for complex or reusable logic.
-- Hooks may contain API calls, Redux interaction, Socket.IO logic, event handlers, and side effects.
-- Keep each hook focused on one responsibility.
-- Do not create hooks only to rename another function/hook.
-- Avoid large "god hooks".
+```text
+Component  ──>  Custom Hook  ──>  RTK Query  ──>  API Endpoint  ──>  Axios  ──>  Backend
+```
+
+---
+
+## 5. Custom Hooks
+
+- Use custom hooks for complex or reusable logic (RTK queries/mutations, local state, event handlers, side effects, sockets).
+- Keep each hook focused on a single responsibility; avoid large "god hooks" containing unrelated logic.
+- Do not create hooks only to rename another hook.
 - Check existing local and MF hooks before creating a new hook.
 
-## 7. Socket.IO
+---
+
+## 6. Socket.IO & Real-time Logic
 
 - Keep Socket.IO logic in custom hooks or feature logic.
-- Always clean up socket listeners/connections when required.
 - Do not put complex socket logic directly inside presentation components.
-- Reuse existing MF socket functionality when available.
+- Always clean up socket listeners and connections when the component unmounts.
+- Reuse existing MF socket utilities/hooks when available.
 
-## 8. Forms & Validation
+---
 
-- Use **React Hook Form** for complex forms.
+## 7. State Management Boundaries
+
+Use the appropriate state solution for each category of data:
+
+- `useState` → Local component UI state (toggle dialogs, form input values, tab selection).
+- `Redux Toolkit` → Shared global client-only state (e.g., auth session, user preferences).
+- `RTK Query` → Server/API state (caching, automated re-fetching, mutation triggers).
+- Do not duplicate server state between RTK Query and local state slices.
+
+---
+
+## 8. Forms & Schema Validation
+
+- Use **React Hook Form** for complex interactive forms.
 - Use **Zod** for schema validation where applicable.
-- Keep validation schemas inside the feature's `validation/` folder.
-- Do not duplicate validation rules across components.
-- Keep form/business logic in custom hooks when the form becomes complex.
+- Keep validation schemas inside the feature's `validation/` folder (e.g., `featureSchema.js`).
+- Do not duplicate validation rules across components. Keep form business logic in custom hooks when forms become complex.
 
-## 9. Shared Components
+---
 
-- Put genuinely reusable components in the shared-components area.
-- Keep feature-specific components inside their feature.
-- Check existing local and MF components before creating a new component.
-- Do not duplicate existing shared components.
+## 9. Shared Components & Utilities
 
-## 10. Utilities
+- Genuinely reusable components belong in `src/sharedComponents/` (or elevated to MF). Feature-specific components stay inside their feature.
+- Generic helpers belong in `src/utility/` (or elevated to MF). Do not put business logic into generic utility files.
+- Check existing local and MF components/utilities before creating new ones.
 
-- Put generic reusable helpers in the utility folder.
-- Keep feature-specific helpers inside the feature.
-- Check existing local and MF utilities before creating a new utility.
-- Do not put business logic into generic utility files.
+---
 
-## 11. Pages
+## 10. Page Containers
 
-- Pages should mainly compose components and hooks.
-- Avoid large API, Redux, socket, and business-logic blocks inside pages.
-- Keep pages readable and focused on layout/composition.
+- Pages should primarily compose components and hooks.
+- Keep API calls, complex state, business logic, and socket logic outside page components.
+- Pages should remain easy to read and understand, acting as top-level layout orchestrators.
 
-## 12. Import Order
+---
 
-All imports must follow this order.
+## 11. Import Statement Ordering
+
+All JavaScript/React imports must follow this strict 4-group order with exactly one blank line between groups:
 
 ### Group 1 — React, Frameworks & External Libraries
 
-1. React
-2. Router/state/data libraries
-3. Other third-party libraries
-4. Form/validation libraries
-5. Socket libraries
-6. UI libraries such as MUI
-7. Icons and external assets
+React core, router, state libraries, third-party libraries, validation, sockets, UI (MUI), and icons.
 
 ### Group 2 — Microfrontend Remotes
 
-8. MF remote imports
+`TheOdcMfUI` remote imports (`TheOdcMfUI/sharedComp`, `TheOdcMfUI/theme`, `TheOdcMfUI/utility`, `TheOdcMfUI/hooks`).
 
-### Group 3 — Components
+### Group 3 — Local/Shared Components
 
-9. Local/shared components
+Local shared components, feature components, and dialogs.
 
 ### Group 4 — Logic, Utilities & Hooks
 
-10. API functions
-11. Redux actions/selectors/store
-12. Utilities/helpers/configuration
-13. Custom hooks
+API functions, Redux actions/RTK queries, utility helpers, configuration, and custom hooks.
 
-- Keep exactly one blank line between groups.
-- Remove all unused imports.
-- Do not import the same module multiple times.
-- Keep imports sorted and consistent.
-- Use ESLint to enforce import ordering.
+```javascript
+import React, { useState, useMemo } from "react";
+import { useParams } from "react-router-dom";
+import { Box, Card, Typography, alpha } from "@mui/material";
+import { ShoppingBag, Done } from "@mui/icons-material";
 
-## 13. Remove Unused & Dead Code
+import { Button, StatusChip } from "TheOdcMfUI/sharedComp";
+import { COLORS } from "TheOdcMfUI/theme";
+import { formatCurrency, formatDateTime } from "TheOdcMfUI/utility";
 
-Always remove:
+import { PageHeader } from "../../../sharedComponents";
+import { OrderSummaryCard } from "../components";
 
-- Unused imports
-- Unused variables
-- Unused functions
-- Unused components
-- Unused hooks
-- Unused API functions
-- Unused Redux actions/selectors
-- Unused files
-- Unused dependencies
-- Duplicate code
-- Dead code
-- Commented-out old code
-
-Do not leave temporary debugging code such as:
-
-```text id="qpl3ar"
-console.log()
-debugger
-temporary test code
+import { useOrderDetails } from "../hooks";
 ```
 
-in production code.
+- Remove all unused imports. Do not import the same module multiple times. Keep imports sorted and consistent.
 
-## 14. Code Quality
+---
 
-- Reuse existing code before creating new code.
-- Check MF remotes before implementing common functionality.
-- Avoid duplicated logic.
-- Avoid unnecessary abstractions.
-- Avoid circular dependencies.
-- Keep business logic close to its feature.
-- Keep components and hooks focused.
-- Use clear and consistent naming.
-- Keep functions simple and readable.
+## 12. Remove Unused & Dead Code
+
+Always actively remove:
+
+- Unused imports, variables, functions, components, hooks, and API functions.
+- Unused files, dependencies, and duplicate code blocks.
+- Commented-out legacy code and dead code.
+- Temporary debugging code (`console.log()`, `debugger`, temporary test values).
+
+---
+
+## 13. Code Quality & Best Practices
+
+- Reuse existing code before creating new code. Check MF remotes before implementing common features.
+- Avoid duplicated logic, unnecessary abstractions, and circular dependencies.
+- Keep functions simple, focused, and readable.
 - Do not add a new library when the existing stack can solve the problem.
-- Code must pass ESLint and Prettier checks.
+- Code must pass ESLint and Prettier checks cleanly with 0 errors.
 
-## 15. Naming
+---
 
-- Components → `PascalCase`
-- Hooks → `useSomething`
-- Functions → `camelCase`
-- Variables → `camelCase`
-- Constants → `UPPER_SNAKE_CASE` when appropriate
-- Component files → `PascalCase.jsx`
-- Hook files → `useSomething.js`
-- API files → descriptive `camelCase.js`
-- Validation files → descriptive names
+## 14. Naming Conventions
 
-## 16. Error & Loading Handling
+- Components → `PascalCase.jsx` (e.g., `ProductCard.jsx`, `OrderDetails.jsx`)
+- Hooks → `useSomething.js` (e.g., `useOrderDetails.js`, `usePaymentDetails.js`)
+- Functions & Variables → `camelCase` (e.g., `calculateTotal`, `isSubmitting`)
+- Constants → `UPPER_SNAKE_CASE` (e.g., `API_TIMEOUT`, `DEFAULT_PAGE_SIZE`)
+- Utility files → descriptive `camelCase.js` (e.g., `formatPrice.js`, `validation.js`)
+
+---
+
+## 15. Error, Loading & Empty State Handling
 
 Every API-driven feature must handle:
 
-- Loading
+- **Loading**: Show skeleton loaders, spinners, or progress indicators.
+- **Success**: Display data cleanly with appropriate UI hierarchy.
+- **Empty state**: Provide clear empty illustrations or helpful feedback when no records exist.
+- **Error**: Show user-friendly error messages/toasts and provide retry/refetch options. Do not silently ignore errors.
 
-- Success
+---
 
-- Empty state
+## 16. Routing & Lazy Loading
 
-- Error
+- Keep routing configuration centralized inside `src/routes/`.
+- Keep route definitions separate from page implementations.
+- Use `React.lazy()` and `Suspense` for large features and route-level code splitting.
+- Provide a proper loading fallback UI for lazy-loaded routes. Keep protected-route logic inside auth guards.
 
-- Handle API and mutation errors properly.
+---
 
-- Show appropriate user feedback.
+## 17. Structured Multi-line Section Comments
 
-- Do not silently ignore errors.
+Enforce clear, multi-line comment banners to separate concerns in custom hooks, pages, and components:
 
-## 17. Routing & Lazy Loading
+### In Custom Hooks:
 
-- Keep routing configuration inside `src/routes/`.
-- Keep route configuration separate from page implementation.
-- Use lazy loading for appropriate routes/features.
-- Provide a loading UI for lazy-loaded pages.
-- Keep protected-route logic inside routing/auth infrastructure.
+```javascript
+/*
+  Hooks & Theme Configuration
+ */
 
-## 18. Before Creating New Code
+/*
+  Redux API Queries & Mutations (RTK Query)
+ */
 
-Before creating a new component, hook, utility, API function, service, or helper:
+/*
+  Computed Values & Memos (State Aggregates)
+ */
 
-1. Check existing shared components.
-2. Check the current feature.
-3. Check existing hooks/utilities/API modules.
-4. Check available MF remotes.
-5. Reuse existing functionality if possible.
-6. Extend or compose existing functionality when appropriate.
-7. Create new code only when necessary.
+/*
+  Event Handler Callbacks / Actions
+ */
+```
 
-## 19. General Rule
+### In Page Containers & Components:
 
-Prefer:
+```javascript
+/*
+  Hook Configuration & Destructuring
+ */
+/*
+  Theme & Layout
+ */
+/*
+  RTK Query API State Indicators
+ */
+/*
+  Computed API Data & Memos
+ */
+/*
+  Event Handler Callbacks
+ */
+/*
+  Presentation Helpers
+ */
+```
 
-**Reuse → Extend → Create**
+- Always preserve and maintain these structured banners across features.
 
-Prefer code that is:
+---
 
-**Simple → Readable → Maintainable → Reusable → Testable**
+## 18. Theme & Design System Standards
 
-Avoid:
+- **Consume Colors Strictly from MF**: Never hardcode raw HEX or RGBA strings (e.g., `#FA8C16`, `rgba(...)`). Consume colors and brand tokens strictly from `TheOdcMfUI/theme` (`COLORS`, `BRAND_GRADIENTS`, `STATUS_COLORS`, `CHART_PALETTE`) or MUI `theme.palette` using `alpha(theme.palette.primary.main, ...)`.
+- **Dynamic Dark & Light Mode Responsiveness**: All UI components (dialogs, cards, forms, tables, headers, chips, buttons) must reactively adapt to dark and light modes, adhering to surface tokens (`theme.palette.background.paper`, `theme.palette.background.default`, `theme.palette.divider`, `theme.palette.text.primary`).
+- **Consistent Typography & Spacing**: Use theme typography variants (`h5`, `h6`, `subtitle2`, `body2`, `caption`) and MUI spacing multipliers instead of hardcoded font sizes or pixel paddings.
+- **Micro-interactions & Borders**: Use theme borders (`1px solid`, `borderColor: "divider"`) and themed alpha overlays on hover/focus states.
 
-**Duplicate → Over-engineered → Unused → Unnecessary**
+---
+
+## 19. General Core Principles
+
+Prefer: **Reuse → Extend → Create**
+
+Prefer code that is: **Simple → Reusable → Maintainable → Testable**
+
+Avoid: **Duplicate → Over-engineered → Unused → Unnecessary**
+
+Always follow the existing project architecture and technology stack before introducing new patterns or dependencies.
